@@ -6,7 +6,7 @@ from model import db, seedData
 
  
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:hejsan123@localhost/Bank'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:mypassword@localhost/BankWeb'
 db.app = app
 db.init_app(app)
 migrate = Migrate(app,db)
