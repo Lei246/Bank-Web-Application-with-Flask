@@ -1,0 +1,93 @@
+{% extends "basetemplate.html" %}
+
+{% block title %}
+Startsidan
+{% endblock %}
+
+
+{% block content %}
+
+Visar sidan {{ page }} av totalt {{ pages }}
+
+<div class="card">
+    <div class="card-header">
+        <h1>Alla customers</h1>
+        Sök: <form method="get">
+                <input type=text placeholder="search" value="{{ q }}" name="q">
+                <input class="btn" type=submit value="Sök">
+            </form>
+    </div>
+    <div class="card-body">
+        <table class="table">
+            <tr>
+                <th>Id</th>
+                <th>GivenName</th>
+                <th>Surname
+                    <a href="{{  url_for('personerPage',sortColumn='Surname',sortOrder='asc', q=q ) }}">
+                        <i class='bx bx-up-arrow-alt'></i>
+                    </a>
+                    <a href="{{  url_for('personerPage',sortColumn='Surname',sortOrder='desc',q=q ) }}">
+                        <i class='bx bx-down-arrow-alt' ></i>
+                    </a>
+                <th>NationalId</th>
+                <th>Streetaddress</th>
+                <th>City
+                    <a href="{{  url_for('personerPage',sortColumn='City',sortOrder='asc',q=q ) }}">
+                        <i class='bx bx-up-arrow-alt'></i>
+                    </a>
+                    <a href="{{  url_for('personerPage',sortColumn='City',sortOrder='desc',q=q ) }}">
+                        <i class='bx bx-down-arrow-alt' ></i>
+                    </a>
+                </th>
+                
+            </tr>
+            {% for person in allaPersoner %}      
+                <tr>
+                    <td>{{ person.Id}}</td>
+                    <td>{{ person.GivenName}}</td>
+                    <td>{{ person.Surname}}</td>
+                    <td>{{ person.NationalId}}</td>
+                    <td>{{ person.Streetaddress }}</td>
+                    <td>{{ person.City }}</td>
+                    <td>
+                    </td>
+                </tr>
+            {% endfor %}
+            <tfooter>
+                <tr>
+                    <td>
+                        {% if has_prev %}
+                            <a class="btn" href="{{ url_for('personerPage', page=page-1, sortColumn=sortColumn, sortOrder=sortOrder, q=q ) }}">
+                                Prev                                
+                            </a>
+                        {% endif %}
+                    </td>
+                    <td>
+                    </td>
+                    <td>
+                    </td>
+                    <td>
+                    <td>
+                        {% if has_next %}
+                            <a class="btn" href="{{ url_for('personerPage', page=page+1, sortColumn=sortColumn, sortOrder=sortOrder,q=q) }}">
+                                Next                                
+                            </a>
+                        {% endif %}
+
+                    </td>
+                </tr>
+            </tfooter>
+        </table>
+        
+
+
+           
+    </div>
+</div>
+
+
+
+
+
+
+{% endblock %}
