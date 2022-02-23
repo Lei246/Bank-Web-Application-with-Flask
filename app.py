@@ -6,6 +6,7 @@ from model import * #db, seedData, Customer, Account, User, Role, UserRoles, Use
 from flask import Flask, render_template, request, url_for, redirect
 from random import randint
 from flask_user import login_required, roles_required
+from sqlalchemy import func
 
 
  
@@ -25,7 +26,9 @@ def indexPage():
     activePage = "startPage"
     antalPersoner = Customer.query.count()
     antalKonto = Account.query.count()
-    return render_template('startPage.html', antalPersoner = antalPersoner, antalKonto = antalKonto, activePage=activePage)
+    antalBalance = Account.query.with_entities(func.sum(Account.Balance)).scalar()
+
+    return render_template('startPage.html', antalPersoner = antalPersoner, antalKonto = antalKonto,antalBalance=antalBalance, activePage=activePage)
 
 @app.route("/personer")
 #@login_required
