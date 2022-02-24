@@ -7,6 +7,7 @@ from flask import Flask, render_template, request, url_for, redirect
 from random import randint
 from flask_user import login_required, roles_required
 from sqlalchemy import func
+from forms import PersonEditForm, PersonNewForm, UserRegistrationForm, PersonSearchForm
 
 
  
@@ -76,6 +77,12 @@ def personerPage():
 
 
 
+
+@app.route("/person/<id>")  # EDIT   3
+#@roles_required("Admin")
+def personPage(id):
+    personFromDb = Customer.query.filter(Customer.Id == id).first_or_404()
+    return render_template('personPage.html',person=personFromDb)
 
 
 
