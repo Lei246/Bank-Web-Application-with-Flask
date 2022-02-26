@@ -81,11 +81,11 @@ def personerPage():
 @app.route("/person/<id>")  # EDIT   3
 #@roles_required("Admin")
 def personPage(id):
-    #personFromDb = Customer.query.filter(Customer.Id == id).first_or_404()
+    inforpersonFromDb = Customer.query.filter(Customer.Id == id).first_or_404()
     personFromDb = Account.query.join(Customer, Customer.Id == Account.CustomerId).add_columns(Customer.City,Account.AccountType, Account.Balance).filter(Customer.Id == id).all()
     personantalBalance = Account.query.join(Customer, Customer.Id == Account.CustomerId).with_entities(func.sum(Account.Balance)).filter(Customer.Id == id).scalar()
 
-    return render_template('personPage.html',person=personFromDb,personantalBalance=personantalBalance)
+    return render_template('personPage.html',person=personFromDb,personantalBalance=personantalBalance,inforpersonFromDb=inforpersonFromDb)
 
 
 

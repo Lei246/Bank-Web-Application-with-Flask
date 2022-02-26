@@ -43,7 +43,7 @@ Visar sidan {{ page }} av totalt {{ pages }}
             </tr>
             {% for person in allaPersoner %}      
                 <tr>
-                    <td>{{ person.Id}}</td>
+                    <td><a href="{{url_for('personPage', id=person.Id)}}">{{ person.Id }}</a></td>
                     <td>{{ person.GivenName}}</td>
                     <td>{{ person.Surname}}</td>
                     <td>{{ person.NationalId}}</td>

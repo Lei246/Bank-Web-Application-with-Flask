@@ -5,17 +5,38 @@
 <title>Search Customer</title>
 </head>
 <body>
-<h1>  profile </h1>
-<h2>Antal balance for this person: {{personantalBalance}}</h2>
  
 
-  {% for i in person %}      
-  <tr>
-      <td><br>{{i.AccountType, i.Balance}}
-      </td>
-  </tr>
-  {% endfor %}
 
+  <div class="card">
+    <div class="card-header">
+        <h1>Account Information</h1>
+        <h2>Antal balance for this person: {{personantalBalance}}</h2>
+        <h3>Surname: {{inforpersonFromDb.Surname}}</h3>
+        <h3>GivenName: {{inforpersonFromDb.GivenName}}</h3>
+        <h3>City: {{inforpersonFromDb.City}}</h3>
+        <h3>NationalId: {{inforpersonFromDb.NationalId}}</h3>
+
+
+
+    </div>
+    <div class="card-body">
+        <table class="table">
+            <tr>
+                <th>AccountType</th>
+                <th>Balance</th>
+                
+                
+            </tr>
+            {% for person in person %}      
+                <tr>
+                    <td>{{ person.AccountType}}</td>
+                    <td>{{ person.Balance}}</td>
+
+                    <td>
+                    </td>
+                </tr>
+            {% endfor %}
 
   
 
