@@ -10,7 +10,7 @@
 
   <div class="card">
     <div class="card-header">
-        <h1>Account Information</h1>
+        <h1>Person--Accounts</h1>
         <h2>Antal balance for this person: {{personantalBalance}}</h2>
         <h3>Surname: {{inforpersonFromDb.Surname}}</h3>
         <h3>GivenName: {{inforpersonFromDb.GivenName}}</h3>
@@ -26,19 +26,24 @@
                <th>AccountId</th>
                <th>AccountType</th>
                 <th>Balance</th>
+
                 
                 
             </tr>
-            {% for person in person %}      
+            {% for account in account %}      
                 <tr>
-                    <td>{{ person.Id}}</td>
-                    <td>{{ person.AccountType}}</td>
-                    <td>{{ person.Balance}}</td>
+                    <td><a href="#">{{ account.Id }}</a></td>
+                    <td>{{ account.AccountType}}</td>
+                    <td>{{ account.Balance}}</td>
+
 
                     <td>
                     </td>
                 </tr>
             {% endfor %}
+
+
+            
 
   
 

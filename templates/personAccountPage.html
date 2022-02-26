@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Search Customer</title>
+</head>
+<body>
+ 
+
+
+  <div class="card">
+    <div class="card-header">
+        <h1>Account--Transactions</h1>
+
+
+
+
+    </div>
+            <div class="card-body">
+              <table class="table">
+                  <tr>
+                     <th>AccountId</th>
+                      <th>Date</th>
+      
+                      
+                      
+                  </tr>
+                  {% for i in accountpersonFromDb %}      
+                      <tr>
+                          <td>{{ i.Id }}</td>
+                          <td>{{ i.Date}}</td>
+      
+      
+                          <td>
+                          </td>
+                      </tr>
+                  {% endfor %}
+
+  
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>
