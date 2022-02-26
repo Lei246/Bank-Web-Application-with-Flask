@@ -5,12 +5,26 @@
 <title>Search Customer</title>
 </head>
 <body>
-<h1>Consumer {{person.Id}} profile : </h1>
+<h1>  profile </h1>
+<h2>Antal balance for this person: {{personantalBalance}}</h2>
+ 
+
+  {% for i in person %}      
+  <tr>
+      <td><br>{{i.AccountType, i.Balance}}
+      </td>
+  </tr>
+  {% endfor %}
 
 
-  <ul>
-    <li>{{person.Id}},{{person.GivenName}},{{person.Surname}},{{person.City}}</li>
-  </ul>
+  
+
+
+
+
+
+
+
 
 
 

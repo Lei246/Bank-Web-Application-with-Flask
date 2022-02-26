@@ -31,7 +31,7 @@
                   <li class="sidenav__list-item {{ 'active' if activePage == 'startPage' }}">
                       <a href="/">
                           <i class="bx bx-list-ul"></i>
-                          Bla bla</a>
+                          Main</a>
                   </li>
 
                   <li class="sidenav__list-item {{ 'active' if activePage == 'personerPage' }}">
@@ -39,6 +39,30 @@
                         <i class="bx bx-cog"></i>
                         Customer</a>
                   </li>
+
+
+              {%  if current_user.is_authenticated    %}
+              <li class="sidenav__list-item">
+                  <a href="{{ url_for('user.logout') }}">
+                      <i class="bx bx-log-out"></i>
+                      Logout</a>
+              </li>
+
+              {%  else    %}
+                  <li class="sidenav__list-item">
+                  <a href="{{ url_for('user.login') }}">
+                      <i class="bx bx-log-out"></i>
+                      Logga in</a>
+                 </li>
+
+                 <li class="sidenav__list-item">
+                  <a href="{{ url_for('user.register') }}">
+                      <i class="bx bx-log-out"></i>
+                      Register</a>
+                 </li>
+
+
+              {%  endif    %}
 
 
                   

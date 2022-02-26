@@ -48,7 +48,7 @@ class Transaction(db.Model):
     NewBalance = db.Column(db.Integer, unique=False, nullable=False)
     AccountId = db.Column(db.Integer, db.ForeignKey('Accounts.Id'), nullable=False)
 
-""" class UserRegistration(db.Model):
+class UserRegistration(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(80), unique=False, nullable=False)
     firstname = db.Column(db.String(40), unique=False, nullable=False)
@@ -74,10 +74,27 @@ class User(db.Model, UserMixin):
     last_name = db.Column(db.String(100), nullable=False, server_default='')
 
     # Define the relationship to Role via UserRoles
-    roles = db.relationship('Role', secondary='user_roles') """
+    roles = db.relationship('Role', secondary='user_roles')
 
 
-""" def AddRoleIfNotExists(namn:str): 
+
+
+# Define the Role data-model
+class Role(db.Model):
+    __tablename__= 'roles'
+    id = db.Column(db.Integer(), primary_key=True)
+    name = db.Column(db.String(50), unique=True)
+
+# Define the UserRoles association table
+class UserRoles(db.Model):
+    __tablename__= 'user_roles'
+    id = db.Column(db.Integer(), primary_key=True)
+    user_id = db.Column(db.Integer(), db.ForeignKey('users.id', ondelete='CASCADE'))
+    role_id = db.Column(db.Integer(), db.ForeignKey('roles.id', ondelete='CASCADE'))
+
+user_manager = UserManager(None, db, User) 
+
+def AddRoleIfNotExists(namn:str): 
     if Role.query.filter(Role.name == namn).first():
         return
     role = Role()
@@ -100,29 +117,12 @@ def AddLoginIfNotExists(email:str, passwd:str, roles:list[str]):
     db.session.add(user)
     db.session.commit()
 
-# Define the Role data-model
-class Role(db.Model):
-    __tablename__= 'roles'
-    id = db.Column(db.Integer(), primary_key=True)
-    name = db.Column(db.String(50), unique=True)
-
-# Define the UserRoles association table
-class UserRoles(db.Model):
-    __tablename__= 'user_roles'
-    id = db.Column(db.Integer(), primary_key=True)
-    user_id = db.Column(db.Integer(), db.ForeignKey('users.id', ondelete='CASCADE'))
-    role_id = db.Column(db.Integer(), db.ForeignKey('roles.id', ondelete='CASCADE'))
-
-user_manager = UserManager(None, db, User) 
-
-
- """
 def seedData(db):
-    """ AddRoleIfNotExists("Admin")
+    AddRoleIfNotExists("Admin")
     AddRoleIfNotExists("Customer")
     AddLoginIfNotExists("admin@example.com", "Hejsan123#",["Admin"])
     AddLoginIfNotExists("customer@example.com", "Hejsan123#",["Customer"])
- """
+
     antal =  Customer.query.count()
     while antal < 5000:
         customer = Customer()
