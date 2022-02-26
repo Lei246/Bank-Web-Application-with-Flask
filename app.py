@@ -82,7 +82,7 @@ def personerPage():
 #@roles_required("Admin")
 def personPage(id):
     inforpersonFromDb = Customer.query.filter(Customer.Id == id).first_or_404()
-    personFromDb = Account.query.join(Customer, Customer.Id == Account.CustomerId).add_columns(Customer.City,Account.AccountType, Account.Balance).filter(Customer.Id == id).all()
+    personFromDb = Account.query.join(Customer, Customer.Id == Account.CustomerId).add_columns(Customer.City,Account.Id, Account.AccountType, Account.Balance).filter(Customer.Id == id).all()
     personantalBalance = Account.query.join(Customer, Customer.Id == Account.CustomerId).with_entities(func.sum(Account.Balance)).filter(Customer.Id == id).scalar()
 
     return render_template('personPage.html',person=personFromDb,personantalBalance=personantalBalance,inforpersonFromDb=inforpersonFromDb)

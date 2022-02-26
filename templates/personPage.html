@@ -23,13 +23,15 @@
     <div class="card-body">
         <table class="table">
             <tr>
-                <th>AccountType</th>
+               <th>AccountId</th>
+               <th>AccountType</th>
                 <th>Balance</th>
                 
                 
             </tr>
             {% for person in person %}      
                 <tr>
+                    <td>{{ person.Id}}</td>
                     <td>{{ person.AccountType}}</td>
                     <td>{{ person.Balance}}</td>
 
