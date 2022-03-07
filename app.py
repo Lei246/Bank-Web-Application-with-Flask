@@ -82,18 +82,17 @@ def personerPage():
 #@roles_required("Admin")
 def personPage(id):
     inforpersonFromDb = Customer.query.filter(Customer.Id == id).first_or_404()
-    personFromDb = Account.query.join(Customer, Customer.Id == Account.CustomerId).add_columns(Customer.City,Account.Id, Account.AccountType, Account.Balance).filter(Customer.Id == id).all()
+    personFromDb = Account.query.join(Customer, Customer.Id == Account.CustomerId).add_columns(Customer.Id.label("CustomerId"),Customer.City,Account.Id, Account.AccountType, Account.Balance).filter(Customer.Id == id).all()
     personantalBalance = Account.query.join(Customer, Customer.Id == Account.CustomerId).with_entities(func.sum(Account.Balance)).filter(Customer.Id == id).scalar()
-    accountpersonFromDb = Transaction.query.join(Account,Transaction.AccountId==Account.Id).join(Customer, Customer.Id == Account.CustomerId).add_columns(Customer.City,Account.Id, Account.AccountType, Account.Balance, Transaction.Date).filter(Customer.Id == id).all()
 
-    return render_template('personPage.html',account=personFromDb,personantalBalance=personantalBalance,inforpersonFromDb=inforpersonFromDb,accountpersonFromDb=accountpersonFromDb)
+    return render_template('personPage.html',account=personFromDb,personantalBalance=personantalBalance,inforpersonFromDb=inforpersonFromDb)
 
 
 @app.route("/person/<id>/<accountid>")  # EDIT   3
 #@roles_required("Admin")
 def accountPage(id,accountid):
     inforpersonFromDb = Customer.query.filter(Customer.Id == id).first_or_404()
-    personFromDb = Account.query.join(Customer, Customer.Id == Account.CustomerId).add_columns(Customer.Id, Account.Id, Account.AccountType, Account.Balance).filter(Customer.Id == id).all()
+    personFromDb = Account.query.join(Customer, Customer.Id == Account.CustomerId).add_columns(Customer.Id.label("CustomerId"), Account.Id, Account.AccountType, Account.Balance).filter(Customer.Id == id).all()
     accountpersonFromDb = Transaction.query.join(Account,Transaction.AccountId==Account.Id).join(Customer, Customer.Id == Account.CustomerId).add_columns(Customer.Id.label("CustomerId"),Account.Id, Account.AccountType, Account.Balance, Transaction.Date).filter(Customer.Id == id).filter(Account.Id == accountid).all()
 
     return render_template('personAccountPage.html',account=personFromDb,inforpersonFromDb=inforpersonFromDb,accountpersonFromDb=accountpersonFromDb)

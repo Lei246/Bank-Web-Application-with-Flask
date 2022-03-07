@@ -32,7 +32,7 @@
             </tr>
             {% for account in account %}      
                 <tr>
-                    <td><a href="#">{{ account.Id }}</a></td>
+                    <td><a href="{{url_for('accountPage', id=account.CustomerId, accountid=account.Id)}}">{{ account.Id }}</a></td>
                     <td>{{ account.AccountType}}</td>
                     <td>{{ account.Balance}}</td>
 
