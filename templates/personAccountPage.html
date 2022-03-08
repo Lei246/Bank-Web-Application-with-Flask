@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Search Customer</title>
+<title>Account info</title>
 </head>
 <body>
  
@@ -10,7 +10,10 @@
 
   <div class="card">
     <div class="card-header">
-        <h1>Account--Transactions</h1>
+        <h1>Account info</h1>
+
+        <h3>Account ID: {{inforaccountFromDb.Id}}</h3>
+        <h3>Current Balance: {{inforaccountFromDb.Balance}}</h3>
 
 
 
@@ -19,16 +22,24 @@
             <div class="card-body">
               <table class="table">
                   <tr>
-                     <th>AccountId</th>
                       <th>Date</th>
+                      <th>Type</th>
+                      <th>Operation</th>
+                      <th>Amount</th>
+
+
       
                       
                       
                   </tr>
                   {% for i in accountpersonFromDb %}      
                       <tr>
-                          <td>{{ i.Id }}</td>
                           <td>{{ i.Date}}</td>
+                          <td>{{ i.Type}}</td>
+                          <td>{{ i.Operation}}</td>
+                          <td>{{ i.Amount}}</td>
+
+
       
       
                           <td>

@@ -93,9 +93,10 @@ def personPage(id):
 def accountPage(id,accountid):
     inforpersonFromDb = Customer.query.filter(Customer.Id == id).first_or_404()
     personFromDb = Account.query.join(Customer, Customer.Id == Account.CustomerId).add_columns(Customer.Id.label("CustomerId"), Account.Id, Account.AccountType, Account.Balance).filter(Customer.Id == id).all()
-    accountpersonFromDb = Transaction.query.join(Account,Transaction.AccountId==Account.Id).join(Customer, Customer.Id == Account.CustomerId).add_columns(Customer.Id.label("CustomerId"),Account.Id, Account.AccountType, Account.Balance, Transaction.Date).filter(Customer.Id == id).filter(Account.Id == accountid).all()
+    accountpersonFromDb = Transaction.query.join(Account,Transaction.AccountId==Account.Id).join(Customer, Customer.Id == Account.CustomerId).add_columns(Customer.Id.label("CustomerId"),Account.Id, Account.AccountType, Account.Balance, Transaction.Date, Transaction.Operation, Transaction.Type,Transaction.Amount).filter(Customer.Id == id).filter(Account.Id == accountid).all()
+    inforaccountFromDb = Account.query.filter(Account.CustomerId == id, Account.Id == accountid).first_or_404()
 
-    return render_template('personAccountPage.html',account=personFromDb,inforpersonFromDb=inforpersonFromDb,accountpersonFromDb=accountpersonFromDb)
+    return render_template('personAccountPage.html',account=personFromDb,inforpersonFromDb=inforpersonFromDb,accountpersonFromDb=accountpersonFromDb,inforaccountFromDb=inforaccountFromDb)
 
 
 
