@@ -40,6 +40,12 @@
                         Customer</a>
                   </li>
 
+                  <li class="sidenav__list-item {{ 'active' if activePage == 'personerPage' }}">
+                    <a href="{{ url_for('managePage') }}">
+                        <i class="bx bx-cog"></i>
+                        Manage account</a>
+                  </li>
+
 
               {%  if current_user.is_authenticated    %}
               <li class="sidenav__list-item">

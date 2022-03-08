@@ -34,3 +34,19 @@ class UserRegistrationForm(FlaskForm):
 
 class PersonSearchForm(FlaskForm):
     id = IntegerField("Id",[validators.NumberRange(1,9999)])
+
+
+
+from flask_wtf import FlaskForm
+from wtforms import Form, StringField, validators
+from wtforms.fields import IntegerField, SelectField, BooleanField, SubmitField,DateTimeField
+
+
+    
+class manageForm(FlaskForm):
+    Type = SelectField("Choose transaction type:", choices=[('Debit'), ('Credit')])    
+    Operation = SelectField("Choose operation", choices=[('Salary'), ('Payment'), ('Transfer'),('Deposit cash'),('Bank withdrawal')])    
+    Amount = IntegerField("Please enter amount:") ## change later
+    NewBalance = IntegerField("please enter new balance:") ## change later
+    AccountId = IntegerField("Please enter the account ID",[validators.NumberRange(1,99999)])
+    Date = DateTimeField("Which date and time the transaction happened?")

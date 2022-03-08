@@ -7,7 +7,7 @@ from flask import Flask, render_template, request, url_for, redirect
 from random import randint
 from flask_user import login_required, roles_required
 from sqlalchemy import func
-from forms import PersonEditForm, PersonNewForm, UserRegistrationForm, PersonSearchForm
+from forms import PersonEditForm, PersonNewForm, UserRegistrationForm, PersonSearchForm, manageForm
 
 
  
@@ -98,6 +98,31 @@ def accountPage(id,accountid):
 
     return render_template('personAccountPage.html',account=personFromDb,inforpersonFromDb=inforpersonFromDb,accountpersonFromDb=accountpersonFromDb,inforaccountFromDb=inforaccountFromDb)
 
+
+
+
+@app.route("/manage",methods=["GET", "POST"]) 
+def managePage():
+    form = manageForm(request.form) 
+
+    if request.method == "GET":
+        return render_template('manageTemplate.html',form=form)
+
+    if form.validate_on_submit():
+        tranctionFromDb = Transaction()
+        tranctionFromDb.Type = form.Type.data
+        tranctionFromDb.Operation = form.Operation.data 
+        tranctionFromDb.Date = form.Date.data 
+        tranctionFromDb.Amount = form.Amount.data 
+        tranctionFromDb.NewBalance = form.NewBalance.data 
+        tranctionFromDb.AccountId = form.AccountId.data 
+
+
+        db.session.add(tranctionFromDb)
+        db.session.commit()
+        return "ok!"
+
+    return render_template('manageTemplate.html',form=form)
 
 
 

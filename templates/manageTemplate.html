@@ -1,0 +1,37 @@
+{% from "_formHelpers.html" import render_field %}
+{% block title %} 
+Management Account
+{% endblock %} 
+
+{% block content %}
+
+<form method="post" class="">
+    {{ form.csrf_token }}
+    <div class="card">
+        <div class="card-header">                               
+        <h1><strong>What do you want to do between accounts?</strong></h1>
+            <div><h2>New Transaction</h2>                        
+                <div class="card-body card-block">
+                {{ render_field(form.Type) }}
+                {{ render_field(form.Operation) }}
+                {{ render_field(form.Date) }}
+                {{ render_field(form.Amount) }}
+                {{ render_field(form.NewBalance) }}
+                {{ render_field(form.AccountId) }}
+
+
+                
+                    <div class="card-footer">        
+                    <button type="submit" class="editbutton">
+                        <i class="fa fa-dot-circle-o"></i> Finish
+                    </button>
+                                     
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+{% endblock %}
