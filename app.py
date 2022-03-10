@@ -31,17 +31,16 @@ def indexPage():
 
     return render_template('startPage.html', antalPersoner = antalPersoner, antalKonto = antalKonto,antalBalance=antalBalance, activePage=activePage)
 
+
+
 @app.route("/personer")
-#@login_required
 #@roles_accepted('Customer', 'Admin') # AND # OR
 def personerPage():
     
     sortColumn = request.args.get('sortColumn', 'Surname')
     sortOrder = request.args.get('sortOrder', 'asc')
     page = int(request.args.get('page', 1))
-
     searchWord = request.args.get('q','')
-
     activePage = "personerPage"
     allaPersoner = Customer.query.filter(
         Customer.Surname.like('%' + searchWord + '%') | 
@@ -60,9 +59,7 @@ def personerPage():
         else:
             allaPersoner = allaPersoner.order_by(Customer.City.asc())
 
-
-    paginationObject = allaPersoner.paginate(page,20,False)
-
+    paginationObject = allaPersoner.paginate(page,50,False)
 
     return render_template('personerPage.html', 
             allaPersoner=paginationObject.items, 
@@ -79,7 +76,6 @@ def personerPage():
 
 
 @app.route("/person/<id>")  # EDIT   3
-#@roles_required("Admin")
 def personPage(id):
     inforpersonFromDb = Customer.query.filter(Customer.Id == id).first_or_404()
     personFromDb = Account.query.join(Customer, Customer.Id == Account.CustomerId).add_columns(Customer.Id.label("CustomerId"),Customer.City,Account.Id, Account.AccountType, Account.Balance).filter(Customer.Id == id).all()
@@ -88,8 +84,10 @@ def personPage(id):
     return render_template('personPage.html',account=personFromDb,personantalBalance=personantalBalance,inforpersonFromDb=inforpersonFromDb)
 
 
+
+
 @app.route("/person/<id>/<accountid>")  # EDIT   3
-#@roles_required("Admin")
+@roles_required("Cashier")
 def accountPage(id,accountid):
     inforpersonFromDb = Customer.query.filter(Customer.Id == id).first_or_404()
     personFromDb = Account.query.join(Customer, Customer.Id == Account.CustomerId).add_columns(Customer.Id.label("CustomerId"), Account.Id, Account.AccountType, Account.Balance).filter(Customer.Id == id).all()
@@ -102,6 +100,7 @@ def accountPage(id,accountid):
 
 
 @app.route("/manage",methods=["GET", "POST"]) 
+@roles_required("Cashier")
 def managePage():
     form = manageForm(request.form) 
 
@@ -109,12 +108,11 @@ def managePage():
         return render_template('manageTemplate.html',form=form)
 
     if form.validate_on_submit():
-
         admin = Account.query.filter_by(Id=form.AccountId.data).first()
         #admin.Balance = form.NewBalance.data
         if form.Operation.data == "Salary" or form.Operation.data == "Deposit cash":
             admin.Balance = admin.Balance + form.Amount.data
-        if form.Operation.data == "Payment" or form.Operation.data == "Bank withdrawal" :
+        if form.Operation.data == "Payment" or form.Operation.data == "Bank withdrawal" or form.Operation.data == "ATM withdrawal":
             if form.Amount.data <= admin.Balance:
                 admin.Balance = admin.Balance - form.Amount.data
             else:
@@ -128,32 +126,18 @@ def managePage():
             admin.Balance = admin.Balance + form.Amount.data
         db.session.commit()
 
-
-
         tranctionFromDb = Transaction()
         tranctionFromDb.Type = form.Type.data
         tranctionFromDb.Operation = form.Operation.data 
         tranctionFromDb.Date = form.Date.data 
         tranctionFromDb.Amount = form.Amount.data 
-        #tranctionFromDb.NewBalance = form.NewBalance.data
         tranctionFromDb.NewBalance = admin.Balance
-
         tranctionFromDb.AccountId = form.AccountId.data 
-
-
         db.session.add(tranctionFromDb)
         db.session.commit()
 
-        
-
-
-
-
-
         return "ok!"
-
     return render_template('manageTemplate.html',form=form)
-
 
 
 
