@@ -120,6 +120,15 @@ def managePage():
 
         db.session.add(tranctionFromDb)
         db.session.commit()
+
+        
+
+        admin = Account.query.filter_by(Id=form.AccountId.data).first()
+        admin.Balance = form.NewBalance.data
+        db.session.commit()
+
+
+
         return "ok!"
 
     return render_template('manageTemplate.html',form=form)
