@@ -115,9 +115,15 @@ def managePage():
         if form.Operation.data == "Salary" or form.Operation.data == "Deposit cash":
             admin.Balance = admin.Balance + form.Amount.data
         if form.Operation.data == "Payment" or form.Operation.data == "Bank withdrawal" :
-            admin.Balance = admin.Balance - form.Amount.data
+            if form.Amount.data <= admin.Balance:
+                admin.Balance = admin.Balance - form.Amount.data
+            else:
+                return "Warning! Not enough money in the account!"
         if form.Type.data == "Credit" and form.Operation.data == "Transfer":
-            admin.Balance = admin.Balance - form.Amount.data
+            if form.Amount.data <= admin.Balance:
+                admin.Balance = admin.Balance - form.Amount.data
+            else:
+                return "Warning! Not enough money in the account!"
         if form.Type.data == "Debit" and form.Operation.data == "Transfer":
             admin.Balance = admin.Balance + form.Amount.data
         db.session.commit()
