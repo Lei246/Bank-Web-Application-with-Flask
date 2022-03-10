@@ -47,6 +47,6 @@ class manageForm(FlaskForm):
     Type = SelectField("Choose transaction type:", choices=[('Debit'), ('Credit')])    
     Operation = SelectField("Choose operation", choices=[('Salary'), ('Payment'), ('Transfer'),('Deposit cash'),('Bank withdrawal')])    
     Amount = IntegerField("Please enter amount:") ## change later
-    NewBalance = IntegerField("please enter new balance:") ## change later
+    #NewBalance = IntegerField("please enter new balance:") ## change later
     AccountId = IntegerField("Please enter the account ID",[validators.NumberRange(1,99999)])
     Date = DateTimeField("Which date and time the transaction happened?")

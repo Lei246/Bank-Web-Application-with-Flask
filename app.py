@@ -109,12 +109,29 @@ def managePage():
         return render_template('manageTemplate.html',form=form)
 
     if form.validate_on_submit():
+
+        admin = Account.query.filter_by(Id=form.AccountId.data).first()
+        #admin.Balance = form.NewBalance.data
+        if form.Operation.data == "Salary" or form.Operation.data == "Deposit cash":
+            admin.Balance = admin.Balance + form.Amount.data
+        if form.Operation.data == "Payment" or form.Operation.data == "Bank withdrawal" :
+            admin.Balance = admin.Balance - form.Amount.data
+        if form.Type.data == "Credit" and form.Operation.data == "Transfer":
+            admin.Balance = admin.Balance - form.Amount.data
+        if form.Type.data == "Debit" and form.Operation.data == "Transfer":
+            admin.Balance = admin.Balance + form.Amount.data
+        db.session.commit()
+
+
+
         tranctionFromDb = Transaction()
         tranctionFromDb.Type = form.Type.data
         tranctionFromDb.Operation = form.Operation.data 
         tranctionFromDb.Date = form.Date.data 
         tranctionFromDb.Amount = form.Amount.data 
-        tranctionFromDb.NewBalance = form.NewBalance.data 
+        #tranctionFromDb.NewBalance = form.NewBalance.data
+        tranctionFromDb.NewBalance = admin.Balance
+
         tranctionFromDb.AccountId = form.AccountId.data 
 
 
@@ -123,9 +140,7 @@ def managePage():
 
         
 
-        admin = Account.query.filter_by(Id=form.AccountId.data).first()
-        admin.Balance = form.NewBalance.data
-        db.session.commit()
+
 
 
 
