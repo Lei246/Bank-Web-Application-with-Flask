@@ -34,7 +34,6 @@ def indexPage():
 
 
 @app.route("/personer")
-#@roles_accepted('Customer', 'Admin') # AND # OR
 def personerPage():
     
     sortColumn = request.args.get('sortColumn', 'Surname')
@@ -87,7 +86,7 @@ def personPage(id):
 
 
 @app.route("/person/<id>/<accountid>")  # EDIT   3
-@roles_required("Cashier")
+#@roles_required("Cashier")
 def accountPage(id,accountid):
     inforpersonFromDb = Customer.query.filter(Customer.Id == id).first_or_404()
     personFromDb = Account.query.join(Customer, Customer.Id == Account.CustomerId).add_columns(Customer.Id.label("CustomerId"), Account.Id, Account.AccountType, Account.Balance).filter(Customer.Id == id).all()
@@ -100,7 +99,7 @@ def accountPage(id,accountid):
 
 
 @app.route("/manage",methods=["GET", "POST"]) 
-@roles_required("Cashier")
+#@roles_required("Cashier")
 def managePage():
     form = manageForm(request.form) 
 
@@ -136,7 +135,8 @@ def managePage():
         db.session.add(tranctionFromDb)
         db.session.commit()
 
-        return "ok!"
+        #return "ok!"
+        return redirect(url_for('indexPage'))
     return render_template('manageTemplate.html',form=form)
 
 
